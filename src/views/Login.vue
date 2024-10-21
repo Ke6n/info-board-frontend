@@ -1,6 +1,7 @@
 <script setup>
 import { User, Lock } from '@element-plus/icons-vue'
 import { ref } from 'vue'
+import { ElMessage } from 'element-plus'
 
 const isRegister = ref(false)
 
@@ -38,20 +39,12 @@ const rules = {
 import { userRegisterService, userLoginService } from '@/api/user.js'
 const register = async () => {
     let result = await userRegisterService(registerData.value);
-    if (result.code === 0) {
-        alert(result.msg ? result.msg : 'Registration succeeded')
-    } else {
-        alert('Registration failed')
-    }
+    ElMessage.success(result.msg ? result.msg : 'Registration succeeded')
 }
 
 const login = async () => {
     let result = await userLoginService(registerData.value);
-    if (result.code === 0) {
-        alert(result.msg ? result.msg : 'Login succeeded')
-    } else {
-        alert('Login failed')
-    }
+    ElMessage.success(result.msg ? result.msg : 'Login succeeded')
 }
 
 const clearRegisterData = () => {
