@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # info-board-frontend
 
 This template should help get you started developing with Vue 3 in Vite.
@@ -27,3 +28,6 @@ npm run dev
 ```sh
 npm run build
 ```
+=======
+# info-board-frontend
+>>>>>>> 2d7848ebbff54c0b17be4fb99df543930db6b268
