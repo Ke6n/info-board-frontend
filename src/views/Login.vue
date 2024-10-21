@@ -42,9 +42,12 @@ const register = async () => {
     ElMessage.success(result.msg ? result.msg : 'Registration succeeded')
 }
 
+import {useRouter} from 'vue-router'
+const router = useRouter()
 const login = async () => {
     let result = await userLoginService(registerData.value);
     ElMessage.success(result.msg ? result.msg : 'Login succeeded')
+    router.push('/')
 }
 
 const clearRegisterData = () => {
