@@ -35,13 +35,30 @@ const rules = {
     ]
 }
 
-import {userRegisterService} from '@/api/user.js'
-const register = async ()=>{
+import { userRegisterService, userLoginService } from '@/api/user.js'
+const register = async () => {
     let result = await userRegisterService(registerData.value);
-    if(result.code === 0){
-        alert(result.msg? result.msg : 'Registration succeeded')
+    if (result.code === 0) {
+        alert(result.msg ? result.msg : 'Registration succeeded')
     } else {
         alert('Registration failed')
+    }
+}
+
+const login = async () => {
+    let result = await userLoginService(registerData.value);
+    if (result.code === 0) {
+        alert(result.msg ? result.msg : 'Login succeeded')
+    } else {
+        alert('Login failed')
+    }
+}
+
+const clearRegisterData = () => {
+    registerData.value = {
+        username: '',
+        password: '',
+        rePassword: ''
     }
 }
 </script>
@@ -73,21 +90,22 @@ const register = async ()=>{
                     </el-button>
                 </el-form-item>
                 <el-form-item class="flex">
-                    <el-link type="info" :underline="false" @click="isRegister = false">
+                    <el-link type="info" :underline="false" @click="isRegister = false; clearRegisterData()">
                         ← Back
                     </el-link>
                 </el-form-item>
             </el-form>
             <!-- Login form -->
-            <el-form ref="form" size="large" autocomplete="off" v-else>
+            <el-form ref="form" size="large" autocomplete="off" v-else :model="registerData" :rules="rules">
                 <el-form-item>
                     <h1>Sign in</h1>
                 </el-form-item>
-                <el-form-item>
-                    <el-input :prefix-icon="User" placeholder="Username"></el-input>
+                <el-form-item prop="username">
+                    <el-input :prefix-icon="User" placeholder="Username" v-model="registerData.username"></el-input>
                 </el-form-item>
-                <el-form-item>
-                    <el-input name="password" :prefix-icon="Lock" type="password" placeholder="Password"></el-input>
+                <el-form-item prop="password">
+                    <el-input name="password" :prefix-icon="Lock" type="password" placeholder="Password"
+                        v-model="registerData.password"></el-input>
                 </el-form-item>
                 <el-form-item class="flex">
                     <div class="flex">
@@ -97,10 +115,10 @@ const register = async ()=>{
                 </el-form-item>
                 <!-- Login Buttons -->
                 <el-form-item>
-                    <el-button class="button" type="primary" auto-insert-space>Sign in</el-button>
+                    <el-button class="button" type="primary" auto-insert-space @click="login">Sign in</el-button>
                 </el-form-item>
                 <el-form-item class="flex">
-                    <el-link type="info" :underline="false" @click="isRegister = true">
+                    <el-link type="info" :underline="false" @click="isRegister = true; clearRegisterData()">
                         Sign up →
                     </el-link>
                 </el-form-item>
