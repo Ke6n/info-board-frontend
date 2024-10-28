@@ -6,12 +6,35 @@ import {
 import { ref } from 'vue'
 const categorys = ref()
 
-import { flyerCategoryListService } from '@/api/flyer.js'
+import { flyerCategoryListService, flyerCategoryAddService } from '@/api/flyer.js'
 const flyerCategoryList = async () => {
-   let result = await flyerCategoryListService();
-   categorys.value = result.data;
+    let result = await flyerCategoryListService();
+    categorys.value = result.data;
 }
 flyerCategoryList();
+
+// Pop-up window for Add Category
+const dialogVisible = ref(false)
+const categoryModel = ref({
+    categoryName: '',
+    categoryAlias: ''
+})
+const rules = {
+    categoryName: [
+        { required: true, message: 'Please input the category name', trigger: 'blur' },
+    ],
+    categoryAlias: [
+        { required: true, message: 'Please input the category alias', trigger: 'blur' },
+    ]
+}
+
+import { ElMessage } from 'element-plus'
+const addCategory = async () => {
+    let result = await flyerCategoryAddService(categoryModel.value);
+    ElMessage.success(result.msg ? result.msg : 'Added Successfully');
+    flyerCategoryList();
+    dialogVisible.value = false;
+}
 </script>
 <template>
     <el-card class="page-container">
@@ -19,7 +42,7 @@ flyerCategoryList();
             <div class="header">
                 <span>FlyerCategory</span>
                 <div class="extra">
-                    <el-button type="primary">Add Category</el-button>
+                    <el-button type="primary" @click="dialogVisible = true">Add Category</el-button>
                 </div>
             </div>
         </template>
@@ -37,6 +60,22 @@ flyerCategoryList();
                 <el-empty description="There is no data." />
             </template>
         </el-table>
+        <el-dialog v-model="dialogVisible" title="Add Category" width="30%">
+            <el-form :model="categoryModel" :rules="rules" label-width="100px" style="padding-right: 30px">
+                <el-form-item label="Cat. Name" prop="categoryName" label-position="left">
+                    <el-input v-model="categoryModel.categoryName" minlength="1" maxlength="10"></el-input>
+                </el-form-item>
+                <el-form-item label="Cat. Alias" prop="categoryAlias" label-position="left">
+                    <el-input v-model="categoryModel.categoryAlias" minlength="1" maxlength="15"></el-input>
+                </el-form-item>
+            </el-form>
+            <template #footer>
+                <span class="dialog-footer">
+                    <el-button @click="dialogVisible = false">Cancel</el-button>
+                    <el-button type="primary" @click="addCategory"> Confirm </el-button>
+                </span>
+            </template>
+        </el-dialog>
     </el-card>
 </template>
 
