@@ -5,5 +5,13 @@ export const flyerCategoryListService = () => {
 }
 
 export const flyerCategoryAddService = (categoryData) => {
-    return request.post('/category',categoryData)
+    return request.post('/category', categoryData)
+}
+
+export const flyerCategoryUpdateService = (categoryData) => {
+    return request.put('/category', categoryData)
+}
+
+export const flyerCategoryDeleteService = (id) => {
+    return request.delete('/category?id=' + id)
 }
