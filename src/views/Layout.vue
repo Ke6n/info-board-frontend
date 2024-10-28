@@ -19,13 +19,13 @@ import avatar from '@/assets/default.png'
             <div class="el-aside__logo"></div>
             <el-menu active-text-color="#ffd04b" background-color="#232323"  text-color="#fff"
                 router>
-                <el-menu-item >
+                <el-menu-item index="/flyer/category">
                     <el-icon>
                         <Management />
                     </el-icon>
                     <span>Flyer Categories</span>
                 </el-menu-item>
-                <el-menu-item >
+                <el-menu-item index="/flyer/manage">
                     <el-icon>
                         <Promotion />
                     </el-icon>
@@ -38,19 +38,19 @@ import avatar from '@/assets/default.png'
                         </el-icon>
                         <span>User Center</span>
                     </template>
-                    <el-menu-item >
+                    <el-menu-item index="/user/info">
                         <el-icon>
                             <User />
                         </el-icon>
                         <span>Profile</span>
                     </el-menu-item>
-                    <el-menu-item >
+                    <el-menu-item index="/user/avatar">
                         <el-icon>
                             <Crop />
                         </el-icon>
                         <span>Change Avatar</span>
                     </el-menu-item>
-                    <el-menu-item >
+                    <el-menu-item index="/user/resetPassword">
                         <el-icon>
                             <EditPen />
                         </el-icon>
@@ -83,9 +83,7 @@ import avatar from '@/assets/default.png'
             </el-header>
             <!-- Middle area -->
             <el-main>
-                <div style="width: 1290px; height: 570px;border: 1px solid red;">
-                    Text
-                </div>
+                <router-view></router-view>
             </el-main>
             <!-- Bottom area -->
             <el-footer>Info-Board ©2024 Created by Kuo Li</el-footer>

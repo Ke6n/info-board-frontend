@@ -1,0 +1,3 @@
+<template>
+    Flyer manage
+</template>

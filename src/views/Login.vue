@@ -43,10 +43,13 @@ const register = async () => {
 }
 
 import {useRouter} from 'vue-router'
+import {useTokenStore} from '@/stores/token.js'
 const router = useRouter()
+const tokenStore = useTokenStore();
 const login = async () => {
     let result = await userLoginService(registerData.value);
     ElMessage.success(result.msg ? result.msg : 'Login succeeded')
+    tokenStore.setToken(result.data)
     router.push('/')
 }
 
