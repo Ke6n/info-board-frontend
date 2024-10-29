@@ -15,3 +15,7 @@ export const flyerCategoryUpdateService = (categoryData) => {
 export const flyerCategoryDeleteService = (id) => {
     return request.delete('/category?id=' + id)
 }
+
+export const flyerListService = (params) => {
+    return request.get('/info-article', { params: params })
+}
