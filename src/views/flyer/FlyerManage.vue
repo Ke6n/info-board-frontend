@@ -118,7 +118,7 @@ const clearData = () => {
         state: ''
     }
     if (quillInstance.value) {
-        quillInstance.value.setContents([]);
+        quillInstance.value.setText('');
     }
 }
 
