@@ -10,6 +10,54 @@ import {
     CaretBottom
 } from '@element-plus/icons-vue'
 import avatar from '@/assets/default.png'
+
+import { userInfoService } from '@/api/user.js'
+import useUserInfoStore from '@/stores/userInfo.js'
+import {useTokenStore} from '@/stores/token.js'
+const tokenStore = useTokenStore();
+const userInfoStore = useUserInfoStore();
+const getUserInfo = async () => {
+    let result = await userInfoService();
+    userInfoStore.setInfo(result.data);
+}
+
+getUserInfo();
+
+import {useRouter} from 'vue-router'
+const router = useRouter();
+import {ElMessage, ElMessageBox} from 'element-plus'
+const handleCommand = (command) => {
+    if(command === 'logout'){
+        ElMessageBox.confirm(
+        'Are you sure you want to sign out?',
+        'Logout',
+        {
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            type: 'warning',
+        }
+    )
+        .then(async () => {
+            // 1. Clear the stored token and userinfo in Pinia
+            tokenStore.removeToken();
+            userInfoStore.removeInfo();
+            // 2. Redirect to the Login Page
+            router.push('/login')
+            ElMessage({
+                type: 'success',
+                message: 'Signed out',
+            })
+        })
+        .catch(() => {
+            ElMessage({
+                type: 'info',
+                message: 'Logout canceled',
+            })
+        })
+    }else{
+        router.push('/user/'+command)
+    }
+}
 </script>
 
 <template>
@@ -17,8 +65,7 @@ import avatar from '@/assets/default.png'
         <!-- left bar -->
         <el-aside width="200px">
             <div class="el-aside__logo"></div>
-            <el-menu active-text-color="#ffd04b" background-color="#232323"  text-color="#fff"
-                router>
+            <el-menu active-text-color="#ffd04b" background-color="#232323" text-color="#fff" router>
                 <el-menu-item index="/flyer/category">
                     <el-icon>
                         <Management />
@@ -31,7 +78,7 @@ import avatar from '@/assets/default.png'
                     </el-icon>
                     <span>Flyer Management</span>
                 </el-menu-item>
-                <el-sub-menu >
+                <el-sub-menu>
                     <template #title>
                         <el-icon>
                             <UserFilled />
@@ -63,19 +110,19 @@ import avatar from '@/assets/default.png'
         <el-container>
             <!-- Head area -->
             <el-header>
-                <div>TestUser:<strong>KKK</strong></div>
-                <el-dropdown placement="bottom-end">
+                <div>TestUser:<strong>{{ userInfoStore.info.nickname }}</strong></div>
+                <el-dropdown placement="bottom-end" @command="handleCommand">
                     <span class="el-dropdown__box">
-                        <el-avatar :src="avatar" />
+                        <el-avatar :src="userInfoStore.info.userPic ? userInfoStore.info.userPic : avatar" />
                         <el-icon>
                             <CaretBottom />
                         </el-icon>
                     </span>
                     <template #dropdown>
                         <el-dropdown-menu>
-                            <el-dropdown-item command="profile" :icon="User">Profile</el-dropdown-item>
+                            <el-dropdown-item command="info" :icon="User">Profile</el-dropdown-item>
                             <el-dropdown-item command="avatar" :icon="Crop">Change Avatar</el-dropdown-item>
-                            <el-dropdown-item command="password" :icon="EditPen">Reset Password</el-dropdown-item>
+                            <el-dropdown-item command="resetPassword" :icon="EditPen">Reset Password</el-dropdown-item>
                             <el-dropdown-item command="logout" :icon="SwitchButton">Sign Out</el-dropdown-item>
                         </el-dropdown-menu>
                     </template>
