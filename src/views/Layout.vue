@@ -95,7 +95,7 @@ const handleCommand = (command) => {
                         <el-icon>
                             <Crop />
                         </el-icon>
-                        <span>Change Avatar</span>
+                        <span>Update Avatar</span>
                     </el-menu-item>
                     <el-menu-item index="/user/resetPassword">
                         <el-icon>
