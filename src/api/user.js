@@ -29,3 +29,7 @@ export const userAvatarUpdateService = (avatarUrl) => {
     params.append('avatarUrl', avatarUrl)
     return request.patch('/user/updateAvatar', params)
 }
+
+export const userPwdUpdateService = (pwdData) => {
+    return request.patch('/user/updatePwd', pwdData)
+  }

@@ -45,7 +45,7 @@ const updateAvatar = async () => {
                     Image
                 </el-button>
                 <el-button type="success" :icon="Upload" size="large" @click="updateAvatar">
-                    Upload
+                    Update
                 </el-button>
             </el-col>
         </el-row>
